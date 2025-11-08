@@ -1,29 +1,26 @@
 ---
 name: Bug report
-about: Create a report to help improve .github-repo
+about: Report an issue with organization profile or documentation
 title: "[BUG] "
 labels: bug
 assignees: ''
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Describe the issue**
+A clear and concise description of what's wrong.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. 
-2. 
-3. 
+**Location**
+Which file or section has the issue:
+- [ ] Organization profile (profile/README.md)
+- [ ] Repository README
+- [ ] CONTRIBUTING.md
+- [ ] Other:
 
 **Expected behavior**
-A clear and concise description of what you expected to happen.
+What should be displayed or how it should work.
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
-
-**Environment:**
-- OS:
-- Version:
 
 **Additional context**
 Add any other context about the problem here.

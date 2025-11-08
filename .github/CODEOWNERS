@@ -1,15 +1,10 @@
 # These owners will be the default owners for everything in
 # the repo. Unless a later match takes precedence,
-# Dustin will be requested for review when someone opens a pull request.
-*       @Dustin
-
-# Core implementation
-*.js    @Dustin
-*.py    @Dustin
+# djdarcy will be requested for review when someone opens a pull request.
+*       @djdarcy
 
 # Documentation
-/docs/   @Dustin
-*.md     @Dustin
+*.md     @djdarcy
 
-# GitHub CI/CD
-/.github/ @Dustin
+# GitHub community health files
+/.github/ @djdarcy

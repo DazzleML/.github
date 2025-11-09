@@ -12,7 +12,7 @@
 
 ## What is DazzleML?
 
-**DazzleML** brings together tools for working with AI systems - whether you're generating images, training models, organizing datasets, or building AI-integrated workflows. These tools emerged from real AI development work and solve actual problems encountered in production environments.
+**DazzleML** brings together tools for working with AI systems - whether you're generating images, training models, organizing datasets, or building AI-integrated workflows. These tools emerged from personal AI development work and help to solve problems encountered in various environments.
 
 **[Read our philosophy →](../docs/philosophy.md)** | **[See who should use DazzleML →](../docs/use-cases.md)**
 

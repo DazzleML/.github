@@ -180,7 +180,7 @@ See individual project repositories for specific licensing information.
 
 - **GitHub**: [@djdarcy](https://github.com/djdarcy)
 - **Issues**: Use repository-specific issue trackers
-- **Discussions**: [GitHub Discussions](https://github.com/DazzleML/discussions)
+- **Discussions**: [GitHub Discussions](https://github.com/orgs/DazzleML/discussions)
 - **Sponsorship**: [GitHub Sponsors](https://github.com/sponsors/djdarcy)
 - **Website**: [DazzleProj.com](https://dazzleproj.com) *(coming soon)*
 

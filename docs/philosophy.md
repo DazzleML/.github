@@ -350,7 +350,7 @@ These principles evolve based on:
 - Community input
 
 **Discussions**:
-- [GitHub Discussions](https://github.com/DazzleML/discussions)
+- [GitHub Discussions](https://github.com/orgs/DazzleML/discussions)
 - Tag issues with `philosophy` label
 - Propose principle changes with rationale
 

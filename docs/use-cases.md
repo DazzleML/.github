@@ -30,10 +30,10 @@ DazzleML provides AI development tools for different audiences. Find your use ca
 - No manual compilation needed
 
 **[find-best-images](projects/find-best-images.md)**:
-- Find your best images with AI-powered curation
-- Analyze thousands of generations in seconds
-- Customizable quality criteria
-- Export top selections automatically
+- Deduplicate image collections across directories
+- Select highest-quality version by resolution, format, filesize
+- CLIP-based similarity detection for grouping near-duplicates
+- Organized output with best images and candidate alternatives
 
 **Workflow Optimization**:
 - Monitor training progress for custom models
@@ -44,14 +44,13 @@ DazzleML provides AI development tools for different audiences. Find your use ca
 
 ```bash
 # 1. Optimize ComfyUI
-cd comfyui-triton-sageattention-installer
-python install.py
+python comfyui_triton_sageattention.py --install
 
 # 2. Generate batch
 # (Use ComfyUI with 20-40% speed boost)
 
-# 3. Find best images
-find-best-images --dir outputs/ --top 20 --output portfolio/
+# 3. Deduplicate and keep highest-quality versions
+python find_best_images.py -i outputs/ -o best/ -r --copy-best --collect-results
 ```
 
 ---
@@ -129,10 +128,10 @@ http://localhost:8080/training/current
 - Document experiment progress
 
 **[find-best-images](projects/find-best-images.md)**:
-- Dataset curation and validation
-- Quality assessment at scale
-- Identify problematic samples
-- Prepare training data
+- Deduplicate training datasets across source directories
+- Select highest-resolution version of each image
+- Filter by format quality and file attributes
+- Organize curated datasets with structured output
 
 **[ComfyUI Triton Installer](projects/comfyui-triton-sageattention-installer.md)**:
 - Benchmark performance improvements
@@ -147,10 +146,10 @@ http://localhost:8080/training/current
 ### Example Workflow
 
 ```bash
-# 1. Curate dataset
-find-best-images --dir raw_data/ --top 5000 \
-  --criteria quality,composition \
-  --output training_set/
+# 1. Deduplicate and select best-quality training images
+python find_best_images.py -i raw_data/ -o training_set/ -r \
+  --primary-metrics dimensions format_quality filesize \
+  --copy-best --collect-results
 
 # 2. Run experiments with monitoring
 for lr in 0.001 0.0001 0.00001; do
@@ -181,10 +180,10 @@ ai-training-monitor report --runs exp1,exp2,exp3 \
 ### DazzleML Tools for Studios
 
 **[find-best-images](projects/find-best-images.md)**:
-- Batch image curation at scale
-- Quality control automation
-- Client delivery selection
-- Brand consistency checking
+- Deduplicate large image collections at scale
+- Select highest-quality versions by resolution and format
+- Organize output with structured best/candidate directories
+- Multi-directory scanning with pattern filtering
 
 **[ComfyUI Triton Installer](projects/comfyui-triton-sageattention-installer.md)**:
 - Production optimization
@@ -208,20 +207,15 @@ ai-training-monitor report --runs exp1,exp2,exp3 \
 # 1. Client brief: Generate 500 product images
 
 # 2. Optimize generation
-cd comfyui-triton-sageattention-installer
-python install.py
+python comfyui_triton_sageattention.py --install
 
 # 3. Generate batch
 # (ComfyUI workflows optimized for speed)
 
-# 4. Quality control
-find-best-images --dir client_batch/ --min-score 0.7 \
-  --output qc_passed/
-
-# 5. Curate client delivery
-find-best-images --dir qc_passed/ --top 50 \
-  --criteria composition,brand_fit \
-  --output client_delivery/
+# 4. Deduplicate and select highest-quality versions
+python find_best_images.py -i client_batch/ -o client_best/ -r \
+  --primary-metrics dimensions format_quality filesize \
+  --copy-best --collect-results
 
 # 6. Organize for delivery
 pattern-break rename --dir client_delivery/ \
@@ -242,7 +236,7 @@ pattern-break rename --dir client_delivery/ \
 
 **Question 2**: What's your biggest pain point?
 - **Slow generation** → ComfyUI Triton Installer
-- **Finding good outputs** → find-best-images
+- **Duplicate images across directories** → find-best-images
 - **Tracking training** → AI Training Monitor
 - **Manual workflows** → MCP Integrations + DazzleTools
 
@@ -260,7 +254,7 @@ pattern-break rename --dir client_delivery/ \
 
 1. Install [ComfyUI Triton Installer](projects/comfyui-triton-sageattention-installer.md) first
 2. Generate images with speed boost
-3. Add [find-best-images](projects/find-best-images.md) for curation
+3. Add [find-best-images](projects/find-best-images.md) for deduplication
 
 ### For Developers
 
@@ -277,7 +271,7 @@ pattern-break rename --dir client_delivery/ \
 ### For Studios
 
 1. Optimize with [ComfyUI Triton Installer](projects/comfyui-triton-sageattention-installer.md)
-2. Automate curation with [find-best-images](projects/find-best-images.md)
+2. Automate deduplication with [find-best-images](projects/find-best-images.md)
 3. Add [DazzleTools](https://github.com/DazzleTools) for file management
 
 ---

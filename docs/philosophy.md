@@ -24,8 +24,8 @@ We build tools that solve real problems in AI workflows:
 **Example**:
 ```bash
 # Not theoretical - actual production use
-python install.py  # Installs optimization, works first try
-find-best-images --dir outputs/ --top 20  # Finds best images in seconds
+python comfyui_triton_sageattention.py --install  # Installs optimization, works first try
+python find_best_images.py -i outputs/ -o best/ -r --copy-best  # Deduplicates and selects best quality
 ```
 
 ---
@@ -51,7 +51,7 @@ AI tools shouldn't require:
 
 **With DazzleML**:
 ```bash
-python install.py
+python comfyui_triton_sageattention.py --install
 # Done. Works.
 ```
 
@@ -92,10 +92,10 @@ monitor.log_metric("loss", loss.item())
 **AI assistance where it makes sense.**
 
 Not every problem needs AI, but when it does:
-- **Image curation**: AI is better at analyzing thousands of images
+- **Image similarity**: CLIP embeddings detect duplicates across thousands of images
 - **Task management**: AI understands natural language task creation
-- **Quality assessment**: AI detects composition and aesthetic issues
-- **Optimization**: AI finds patterns humans miss
+- **Pattern recognition**: AI finds relationships humans miss at scale
+- **Optimization**: AI identifies performance improvements automatically
 
 **Don't use AI for**:
 - File copying (use DazzleLib)
@@ -104,7 +104,7 @@ Not every problem needs AI, but when it does:
 - Simple automation (use scripts)
 
 **Use AI for**:
-- Subjective quality judgments
+- Semantic similarity detection at scale
 - Pattern recognition at scale
 - Natural language interfaces
 - Complex decision-making
@@ -139,7 +139,7 @@ DazzleML tools are not experiments:
 **Implementation**:
 ```bash
 # Good
-python install.py
+python comfyui_triton_sageattention.py --install
 
 # Bad
 ./configure && make && make install && debug errors
@@ -156,12 +156,12 @@ python install.py
 **Implementation**:
 ```bash
 # Works with defaults
-find-best-images --dir ./images --top 10
+python find_best_images.py -i ./images -o ./best -r
 
 # Customizable when needed
-find-best-images --dir ./images --top 10 \
-  --criteria quality,composition \
-  --weights 0.6,0.4
+python find_best_images.py -i ./images -o ./best -r \
+  --primary-metrics dimensions format_quality filesize \
+  --similarity-preset very_similar
 ```
 
 **Why**: Common cases should be trivial. Advanced cases should be possible.
@@ -239,7 +239,7 @@ Not:
 **Example**:
 ```bash
 # Simple, focused tools
-find-best-images --dir outputs/ --top 20  # Curate
+python find_best_images.py -i outputs/ -o best/ -r --copy-best  # Deduplicate
 pattern-break rename --template ...  # Organize (from DazzleTools)
 
 # Not: One tool that tries to do everything

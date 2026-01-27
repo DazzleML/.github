@@ -22,10 +22,10 @@
 ### ✅ find-best-images
 **Status**: Active
 
-- AI-powered image curation
-- Batch processing at scale
-- Customizable quality criteria
-- **Use Cases**: Post-generation curation, dataset preparation
+- CLIP-based similar image detection and deduplication
+- Objective quality evaluation (dimensions, resolution, filesize, format)
+- Multi-directory scanning with pattern filtering
+- **Use Cases**: Dataset curation, photo collection deduplication
 - **Maintenance**: Active development
 
 **[Full Documentation →](projects/find-best-images.md)**
@@ -301,11 +301,9 @@ More MCP servers and tools:
 
 #### find-best-images
 - ⏳ PyPI publication
-- ⏳ Additional quality models
-- ⏳ Custom scorer plugins
-- ⏳ Video support
-- ⏳ Batch mode improvements
-- ⏳ Web UI (optional)
+- ⏳ Additional quality metrics
+- ⏳ Improved embedding caching
+- ⏳ Performance optimizations for large collections
 
 #### AI Training Monitor
 - ⏳ PyPI publication
@@ -413,7 +411,7 @@ Sponsorship directly influences roadmap priorities:
 
 - Training Scheduler
 - Generation Optimizer
-- find-best-images video support
+- find-best-images improvements
 
 ### 2026 Q2-Q3
 

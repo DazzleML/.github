@@ -1,138 +1,120 @@
 # find-best-images
 
-**AI-powered image curation tool**
+**Image deduplication and quality-based selection tool**
 
 **[GitHub Repository](https://github.com/djdarcy/find-best-images)** | **Status: Active**
 
-> Find the best images from large collections using AI analysis of composition, quality, and aesthetics.
+> Scan directories for similar images, evaluate them using objective quality metrics, and organize the highest-quality version of each group. Designed for deduplication and dataset curation at scale.
 
 ---
 
 ## The Problem
 
-You generate 1,000 images. Which 10 are worth keeping?
+You have thousands of images across multiple directories — different versions, resizes, format conversions, and near-duplicates. Which version of each image is the best quality?
 
-**Manual review**: Hours of clicking through images, comparing quality, making subjective decisions.
+**Manual review**: Hours comparing similar images side-by-side, checking dimensions, formats, and file sizes.
 
 **The cost**:
-- 1,000 images × 3 seconds each = 50 minutes minimum
-- Mental fatigue reduces accuracy
-- Inconsistent criteria across sessions
-- Miss hidden gems
+- Duplicate storage waste
+- Inconsistent quality across collections
+- No reliable way to identify which version is highest resolution or best format
+- Manual comparison doesn't scale beyond a few hundred images
 
 ---
 
 ## The Solution
 
 ```bash
-find-best-images --dir ./generations --top 10 --output best/
-# AI analyzes all images, exports top 10 to best/
+python find_best_images.py -i ./photos_camera -i ./photos_phone -o ./best_photos -r
+# Groups similar images, selects highest-quality version of each
 ```
 
-**AI does in seconds what takes humans hours.**
+**CLIP-based similarity detection + objective quality metrics = automated deduplication and best-version selection.**
 
 ---
 
 ## Features
 
-### AI Quality Analysis
-- **Composition scoring** - Rule of thirds, balance, framing
-- **Sharpness detection** - Focus quality, blur detection
-- **Aesthetic evaluation** - Color harmony, visual appeal
-- **Technical quality** - Exposure, noise, artifacts
+### CLIP-Based Similarity Detection
+- Uses OpenAI's **CLIP model** (clip-vit-base-patch32) to generate semantic embeddings
+- Groups images by cosine similarity with configurable thresholds
+- Preset similarity levels: `same`, `almost_same`, `very_similar`, `similar`, and more
+- Optional **region-based checking** (center, corners) for more accurate comparison
 
-### Batch Processing
-- Analyze thousands of images quickly
-- Parallel processing for speed
-- Progress tracking for large collections
-- Resumable operations
+### Objective Quality Evaluation
+Selects the best image from each group using measurable quality metrics:
 
-### Customizable Criteria
-Define what "best" means for your use case:
-```bash
-# Focus on composition
-find-best-images --criteria composition --weight 0.8
+- **Dimensions** — Pixel width × height (larger is better)
+- **Resolution** — DPI/pixel density (higher is better for print)
+- **Filesize** — Larger files typically retain more detail (same-format comparison)
+- **Format quality** — Ranked by losslessness: PNG (100) > TIFF (95) > BMP (90) > WebP (85) > JPEG (75) > GIF (60)
+- **Modified/Created date** — Prefer newest or oldest based on your needs
 
-# Balance multiple factors
-find-best-images --criteria quality,composition,aesthetics --weights 0.4,0.3,0.3
+### Hybrid Scoring System
+- **Primary metrics** evaluated in strict priority order (first metric wins unless tied)
+- **Secondary metrics** with configurable weights for tie-breaking
+- Ensures deterministic, reproducible selection
 
-# Custom scoring function
-find-best-images --scorer custom_scorer.py
+### Multi-Directory Scanning
+- Scan multiple input directories simultaneously
+- Recursive subdirectory traversal
+- Include/exclude patterns (glob or regex) for both directories and files
+
+### Flexible File Operations
+- **Symlink** — Fast, space-efficient (default)
+- **Copy** — Safe, independent copies
+- **Move** — Relocate originals with optional backlinks to original location
+
+### Output Organization
+```
+Output/
+├── image_group_WxH_candidates/
+│   ├── best_image.jpg              (highest quality version)
+│   └── _candidates/
+│       ├── duplicate_1.jpg         (lower quality versions)
+│       ├── duplicate_2.png
+│       └── metadata.txt
+└── _singletons/                    (unique images, no duplicates found)
+    └── unique_image.jpg
 ```
 
-### Multiple Output Formats
-- **Copy files** - Copy best images to output directory
-- **Create lists** - Generate text/CSV list of best images
-- **Generate reports** - HTML report with scores and thumbnails
-- **Symlinks** - Link to originals without copying
-
-### Preview Mode
-Review AI selections before committing:
-```bash
-# Preview without copying
-find-best-images --dir ./images --top 50 --preview
-
-# Interactive review
-find-best-images --dir ./images --top 50 --interactive
-```
-
-### Fast Processing
-Optimized for large image collections:
-- Efficient AI model loading
-- Batch inference
-- GPU acceleration (if available)
-- Intelligent caching
+### Robust File Handling
+- **Collision strategies**: hierarchical, hash, numeric, parent-only
+- **Long path management**: Handles Windows 260-char path limits
+- **Embedding cache**: Save computed CLIP embeddings to `.embedding_cache.pkl` for reuse
+- **Dry run mode**: Preview all operations without modifying files
 
 ---
 
 ## Use Cases
 
-### Post-Generation Curation
-Filter thousands of AI generations:
+### Digital Asset Deduplication
+Consolidate photo collections from multiple devices:
 ```bash
-# Generate 500 images
-comfyui-batch --count 500
-
-# Find top 20
-find-best-images --dir outputs/ --top 20 --output curated/
+python find_best_images.py \
+  -i "D:\Photos\Camera" -i "D:\Photos\Phone" -i "D:\Photos\Backup" \
+  -o "D:\Photos\Best" --recursive --copy-best
 ```
 
-### Dataset Preparation
-Find quality training images:
+### AI Dataset Curation
+Select the highest-quality version of each training image:
 ```bash
-# Curate training dataset
-find-best-images --dir raw_images/ --top 1000 \
-  --criteria quality,composition \
-  --output training_dataset/
+python find_best_images.py \
+  -i "D:\datasets\raw" --recursive --copy-best --collect-results \
+  --include-dirs-pattern "(__training|input)" \
+  --exclude-dirs-pattern "(output|wip)" \
+  --pattern-mode regex \
+  --output-dir "D:\datasets\curated" --force
 ```
 
-### Portfolio Selection
-Choose your best work:
+### Creative Workflow Organization
+Organize game assets or photography projects:
 ```bash
-# Find top 10 for portfolio
-find-best-images --dir portfolio_candidates/ --top 10 \
-  --criteria composition,aesthetics \
-  --output portfolio/
-```
-
-### Quality Control
-Identify problematic generations:
-```bash
-# Find worst images (for analysis)
-find-best-images --dir outputs/ --bottom 10 --output review/
-
-# Flag low-quality images
-find-best-images --dir outputs/ --threshold 0.5 --flag-below
-```
-
-### Batch Validation
-Ensure generation quality at scale:
-```bash
-# Analyze quality distribution
-find-best-images --dir batch_outputs/ --report quality_report.html
-
-# Filter by minimum quality
-find-best-images --dir batch_outputs/ --min-score 0.7 --output passed/
+python find_best_images.py \
+  -i "./assets" -o "./organized" -r \
+  --primary-metrics dimensions format_quality filesize \
+  --similarity-preset very_similar \
+  --collect-results
 ```
 
 ---
@@ -140,130 +122,79 @@ find-best-images --dir batch_outputs/ --min-score 0.7 --output passed/
 ## Installation
 
 ```bash
-# PyPI (coming soon)
-pip install find-best-images
-
-# From source
-git clone https://github.com/djdarcy/find-best-images
+# Clone and install
+git clone https://github.com/djdarcy/find-best-images.git
 cd find-best-images
-pip install -e ".[dev]"
+pip install -r requirements.txt
+
+# Or install in editable mode
+pip install -e .
 ```
+
+### Requirements
+- Python 3.x
+- PyTorch (for CLIP model inference)
+- Transformers (Hugging Face, for CLIP)
+- Pillow (image processing)
+- tqdm (progress bars)
 
 ---
 
-## Usage
+## Command Reference
 
-### Basic Usage
-
-```bash
-# Find top 10 images
-find-best-images --dir ./images --top 10 --output ./best
-
-# Find top 5% of images
-find-best-images --dir ./images --top-percent 5 --output ./best
-
-# Use specific criteria
-find-best-images --dir ./images --top 20 \
-  --criteria composition,sharpness \
-  --output ./best
-```
-
-### Advanced Usage
-
-```bash
-# Preview before committing
-find-best-images --dir ./images --top 10 --preview
-
-# Interactive selection
-find-best-images --dir ./images --top 20 --interactive
-
-# Generate HTML report
-find-best-images --dir ./images --report report.html
-
-# Custom weights
-find-best-images --dir ./images --top 10 \
-  --criteria quality,composition,aesthetics \
-  --weights 0.5,0.3,0.2 \
-  --output ./best
-```
+| Option | Description |
+|--------|-------------|
+| `-i`, `--input-dir` | Input directories to scan (multiple allowed) |
+| `-o`, `--output-dir` | Directory for organized output |
+| `-r`, `--recursive` | Recursively scan subdirectories |
+| `--copy-best` | Copy best images instead of symlinking |
+| `--collect-results` | Consolidate best images into single directory |
+| `--primary-metrics` | Quality metrics in strict priority order |
+| `--secondary-metrics` | Tie-breaking metrics with weights |
+| `--metric-weights` | Weights for secondary metrics (e.g., `dimensions:1.0,filesize:0.5`) |
+| `--similarity-preset` | Similarity threshold preset (same, almost_same, very_similar, similar) |
+| `--check-regions` | Number of image regions to compare for accuracy |
+| `--include-dirs-pattern` | Include only matching directories |
+| `--exclude-dirs-pattern` | Exclude matching directories |
+| `--pattern-mode` | Pattern mode: `glob` (default) or `regex` |
+| `--dryrun` | Preview operations without modifying files |
+| `--force` | Overwrite existing output directories |
+| `--date-preference` | Prefer `newest` or `oldest` when using date metrics |
 
 ---
 
-## Example Workflow
+## How It Works
 
-```bash
-# 1. Generate large batch
-comfyui-batch-generate --count 500
-
-# 2. Find top 50 images
-find-best-images --dir outputs/ --top 50 \
-  --criteria quality,composition \
-  --output curated/
-
-# 3. Review interactively
-find-best-images --dir curated/ --interactive
-
-# 4. Organize by quality score
-pattern-break rename --dir curated/ \
-  --template "{quality_score}_{filename}.png"
-```
+1. **Discover** — Recursively scan input directories, validate image files
+2. **Embed** — Compute CLIP embeddings for each image (cached for reuse)
+3. **Group** — Cluster similar images by cosine similarity threshold
+4. **Evaluate** — Score each group member using primary + secondary quality metrics
+5. **Organize** — Place best version as primary, others as candidates in subfolders
 
 ---
 
-## AI Models
+## Relationship to ImgCompare
 
-find-best-images uses AI models for quality assessment:
+find-best-images shares a Python virtual environment with [ImgCompare](https://github.com/DazzleML/ImgCompare) (via symlink). Both use CLIP embeddings for similarity detection, but serve different purposes:
 
-### Default Model
-- **Auto-downloaded** on first run
-- **Size**: ~100MB
-- **Speed**: ~10-50 images/second (GPU)
-- **Accuracy**: Trained on diverse image datasets
+- **ImgCompare**: Compare two images or organize a directory by similarity grouping
+- **find-best-images**: Find and select the highest-quality version from groups of similar/duplicate images across multiple directories
 
-### Custom Models
-```bash
-# Use custom quality model
-find-best-images --model path/to/model.pth
-
-# Use different criteria models
-find-best-images --composition-model comp_model.pth \
-                 --sharpness-model sharp_model.pth
-```
+They are independent tools with no code dependencies between them.
 
 ---
 
 ## Technical Requirements
 
-- Python 3.10+
-- AI model for quality analysis (auto-downloaded)
-- Adequate RAM for batch processing (8GB+ recommended)
-- Optional: GPU for faster processing
-
----
-
-## Performance
-
-### Processing Speed
-
-| Hardware | Images/Second |
-|----------|---------------|
-| CPU (8-core) | ~5 images/sec |
-| GPU (RTX 3060) | ~30 images/sec |
-| GPU (RTX 4090) | ~80 images/sec |
-
-### Memory Usage
-
-| Batch Size | RAM Usage |
-|------------|-----------|
-| 100 images | ~2GB |
-| 1,000 images | ~4GB |
-| 10,000 images | ~8GB |
+- Python 3.x
+- GPU recommended for faster CLIP inference (CUDA), falls back to CPU
+- 8GB+ RAM recommended for large collections
 
 ---
 
 ## License
 
-GPL 3.0 - See repository for details
+GPL 3.0 — See repository for details
 
 ---
 

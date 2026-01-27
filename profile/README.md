@@ -26,7 +26,7 @@
 One-click installation of Triton and SageAttention optimizations for ComfyUI. Get 20-40% speed improvements without manual compilation.
 
 ```bash
-python install.py  # Everything installs automatically
+python comfyui_triton_sageattention.py --install  # Everything installs automatically
 ```
 
 **[Full documentation →](../docs/projects/comfyui-triton-sageattention-installer.md)** | **Status: Active**
@@ -35,10 +35,10 @@ python install.py  # Everything installs automatically
 
 ### 🎯 [find-best-images](https://github.com/djdarcy/find-best-images)
 
-AI-powered image curation tool. Find the best images from large collections using AI analysis of composition, quality, and aesthetics.
+Image deduplication and quality-based selection tool. Scans directories for similar images using CLIP embeddings, evaluates them with objective quality metrics (dimensions, resolution, filesize, format), and organizes the highest-quality version of each group.
 
 ```bash
-find-best-images --dir ./generations --top 10 --output best/
+python find_best_images.py -i ./photos -i ./backup -o ./best -r --copy-best
 ```
 
 **[Full documentation →](../docs/projects/find-best-images.md)** | **Status: Active**
@@ -70,14 +70,13 @@ Tools for integrating AI assistants into development workflows using the Model C
 
 ```bash
 # 1. Optimize ComfyUI for faster generation
-cd comfyui-triton-and-sageattention-installer
-python install.py
+python comfyui_triton_sageattention.py --install
 
 # 2. Generate images (now 20-40% faster)
 # Use ComfyUI normally
 
-# 3. Find best images from your outputs
-find-best-images --dir outputs/ --top 20 --output best/
+# 3. Deduplicate and select best-quality versions
+python find_best_images.py -i outputs/ -o best/ -r --copy-best --collect-results
 
 # 4. Monitor training runs
 python train.py --monitor localhost:8080

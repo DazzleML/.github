@@ -2,176 +2,81 @@
 
 **AI Development Tools and Integration Ecosystem**
 
-[![GitHub](https://img.shields.io/badge/GitHub-DazzleML-blue?logo=github)](https://github.com/DazzleML)
+[![GitHub](https://img.shields.io/badge/GitHub-DazzleML-blue?logo=github)](https://github.com/DazzleML/.github)
 [![License: GPL 3.0](https://img.shields.io/badge/License-GPL%203.0-green.svg)](LICENSE)
 [![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?logo=github-sponsors)](https://github.com/sponsors/djdarcy)
 
-> Tools for AI-assisted development, image generation workflows, training monitoring, and intelligent task management. From ComfyUI optimization to AI-powered file curation.
+> Tools for AI-assisted development, image generation workflows, training monitoring, and intelligent task management.
 
 ---
 
 ## What is DazzleML?
 
-**DazzleML** brings together tools for working with AI systems - whether you're generating images, training models, organizing datasets, or building AI-integrated workflows. These tools emerged from personal AI development work and help to solve problems encountered in various environments.
+**DazzleML** brings together tools for working with AI systems — whether you're generating images, training models, organizing datasets, or building AI-integrated workflows. These tools emerged from real AI development work and solve problems encountered daily.
 
-**[Read our philosophy →](../docs/philosophy.md)** | **[See who should use DazzleML →](../docs/use-cases.md)**
+### Philosophy
+
+- **Practical First** — Tools for real work, not just demos
+- **Cross-Platform** — Works on Windows, Linux, and macOS
+- **Standalone** — Each tool works independently, no ecosystem lock-in
+- **Open Source** — GPL 3.0 to keep AI tooling accessible
 
 ---
 
-## Featured Projects
+## Featured Tool
 
-### 🌟 [ComfyUI Triton & SageAttention Installer](https://github.com/djdarcy/comfyui-triton-and-sageattention-installer)
-**Most Popular Dazzle Project Overall**
+#### [ComfyUI Triton & SageAttention Installer](https://github.com/djdarcy/comfyui-triton-and-sageattention-installer)
+**Most Popular Dazzle Project**
 
 One-click installation of Triton and SageAttention optimizations for ComfyUI. Get 20-40% speed improvements without manual compilation.
 
 ```bash
-python comfyui_triton_sageattention.py --install  # Everything installs automatically
-```
-
-**[Full documentation →](../docs/projects/comfyui-triton-sageattention-installer.md)** | **Status: Active**
-
----
-
-### 🎯 [find-best-images](https://github.com/djdarcy/find-best-images)
-
-Image deduplication and quality-based selection tool. Scans directories for similar images using CLIP embeddings, evaluates them with objective quality metrics (dimensions, resolution, filesize, format), and organizes the highest-quality version of each group.
-
-```bash
-python find_best_images.py -i ./photos -i ./backup -o ./best -r --copy-best
-```
-
-**[Full documentation →](../docs/projects/find-best-images.md)** | **Status: Active**
-
----
-
-### 📊 [AI Training Monitor](https://github.com/DazzleML/ai-training-monitor)
-
-Monitor and visualize AI model training in real-time. Track loss, learning rate, sample outputs, and system resources.
-
-```bash
-python train.py --monitor localhost:8080
-# View at http://localhost:8080
-```
-
-**[Full documentation →](../docs/projects/ai-training-monitor.md)** | **Status: Active**
-
----
-
-### 🤖 [MCP Server Integrations](https://github.com/DazzleML/MCP-Server-Tutorial)
-
-Tools for integrating AI assistants into development workflows using the Model Context Protocol. Includes TodoAI integration.
-
-**[Full documentation →](../docs/projects/mcp-integrations.md)** | **Status: Active**
-
----
-
-## Quick Start
-
-```bash
-# 1. Optimize ComfyUI for faster generation
 python comfyui_triton_sageattention.py --install
-
-# 2. Generate images (now 20-40% faster)
-# Use ComfyUI normally
-
-# 3. Deduplicate and select best-quality versions
-python find_best_images.py -i outputs/ -o best/ -r --copy-best --collect-results
-
-# 4. Monitor training runs
-python train.py --monitor localhost:8080
 ```
 
 ---
 
 ## Documentation
 
-- **[Who Should Use DazzleML](../docs/use-cases.md)** - Artists, developers, researchers, studios
-- **[Philosophy](../docs/philosophy.md)** - Design principles and approach
-- **[Roadmap](../docs/roadmap.md)** - Current status and planned features
-- **[Sustainability](../docs/sustainability.md)** - Supporting development
-
-**Project Documentation**:
-- **[ComfyUI Triton Installer](../docs/projects/comfyui-triton-sageattention-installer.md)**
-- **[find-best-images](../docs/projects/find-best-images.md)**
-- **[AI Training Monitor](../docs/projects/ai-training-monitor.md)**
-- **[MCP Integrations](../docs/projects/mcp-integrations.md)**
+- **Tool-Specific Docs**: See individual repository READMEs
+- **Discussions**: [GitHub Discussions](https://github.com/orgs/DazzleML/discussions)
 
 ---
 
-## Integration with DazzleProj Ecosystem
+## Related Projects
 
-DazzleML works seamlessly with other Dazzle organizations:
+### Part of DazzleProj Ecosystem
 
-**[DazzleLib](https://github.com/DazzleLib)** - Use dazzle-filekit for dataset verification and file operations
+- **[DazzleProj](https://github.com/DazzleProj)** — Ecosystem coordination
+- **[DazzleLib](https://github.com/DazzleLib)** — Foundation libraries
+- **[DazzleTools](https://github.com/DazzleTools)** — Command-line tools
+- **[DazzleNodes](https://github.com/DazzleNodes)** — ComfyUI custom nodes
+- **[DazzleML](https://github.com/DazzleML)** — AI development tools ← *You are here*
 
-**[DazzleTools](https://github.com/DazzleTools)** - Use preserve for training data backups, pattern-break for dataset organization
+### Related Ecosystems
 
-**[DazzleNodes](https://github.com/DazzleNodes)** - ComfyUI custom nodes optimized with Triton installer
-
----
-
-## Platform Support
-
-| Tool | Windows | Linux | macOS |
-|------|---------|-------|-------|
-| ComfyUI Triton Installer | ✅ Full | ✅ Full | 🚧 Coming |
-| find-best-images | ✅ Full | ✅ Full | ✅ Full |
-| AI Training Monitor | ✅ Full | ✅ Full | ✅ Full |
-| MCP Server Tutorial | ✅ Full | ✅ Full | ✅ Full |
+- **[TodoAI](https://github.com/Todo-AI)** — Task-based OS with AI integration
+- **[ComfyUI](https://github.com/comfyanonymous/ComfyUI)** — Node-based UI for Stable Diffusion
 
 ---
 
-## Contributing
+## Roadmap
 
-Contributions welcome! Each tool has its own repository with contribution guidelines.
+### Near Term (Q1-Q2 2026)
 
-**General Process**:
-1. Fork the tool repository
-2. Create a feature branch
-3. Test with real AI workloads
-4. Ensure cross-platform compatibility
-5. Submit a pull request
+- 🚧 Claude and Codex development tooling (see [claude-session-logger](https://github.com/DazzleML/claude-session-logger))
+- 🚧 Dataset management and curation tools
 
-**[Read contributing guidelines →](CONTRIBUTING.md)**
+### Medium Term (Q3-Q4 2026)
 
----
+- Publish tools to PyPI with `dazzle-` prefix
+- ComfyUI ecosystem improvements as needed
 
-## 💰 Sustainability
+### Long Term (2027+)
 
-**[Learn about supporting DazzleML →](../docs/sustainability.md)**
+- Additional commercial tools (to fund development)
 
-If DazzleML saves you time, consider **[sponsoring on GitHub](https://github.com/sponsors/djdarcy)** or **[buying us a coffee](https://www.buymeacoffee.com/djdarcy)**
-
-**Current sponsorship**: $0/month | **Goal**: $1,000/month
-
----
-
-## Part of DazzleProj
-
-DazzleML is one of five organizations in the Dazzle ecosystem:
-
-- **[DazzleProj](https://github.com/DazzleProj)** - Ecosystem coordination
-- **[DazzleLib](https://github.com/DazzleLib)** - Foundation libraries
-- **[DazzleTools](https://github.com/DazzleTools)** - Command-line tools
-- **[DazzleNodes](https://github.com/DazzleNodes)** - ComfyUI custom nodes
-- **[DazzleML](https://github.com/DazzleML)** - AI development tools ← *You are here*
-
----
-
-## Related AI Ecosystems
-
-- **[TodoAI](https://github.com/Todo-AI)** - Task-based OS with AI integration
-- **[ComfyUI](https://github.com/comfyanonymous/ComfyUI)** - Node-based UI for Stable Diffusion
-- **[Model Context Protocol](https://modelcontextprotocol.io)** - AI assistant integration standard
-
----
-
-## License
-
-DazzleML projects use **GPL 3.0** to encourage open AI tooling and ensure improvements benefit everyone.
-
-See individual project repositories for specific licensing information.
+*Roadmap depends on community support and sponsorship.*
 
 ---
 
@@ -182,9 +87,3 @@ See individual project repositories for specific licensing information.
 - **Discussions**: [GitHub Discussions](https://github.com/orgs/DazzleML/discussions)
 - **Sponsorship**: [GitHub Sponsors](https://github.com/sponsors/djdarcy)
 - **Website**: [DazzleProj.com](https://dazzleproj.com) *(coming soon)*
-
----
-
-**Built by someone who trains models and generates images every day** 🤖
-
-*AI tools for real work, not just demos.*
